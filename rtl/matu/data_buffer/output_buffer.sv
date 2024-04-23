@@ -1,3 +1,13 @@
+/******************************************************************************
+*
+*  Authors:   Chengyi Zhang
+*     Date:   2023/4/20
+*   Method:   
+*  Version:   
+*  Content:  
+* 
+******************************************************************************/
+
 module output_buffer # (QUEUE_NUM=1, QUEUE_LEN=3, C_WIDTH=16) (
     input                               i_clk                                               ,
     input                               i_rst                                               ,

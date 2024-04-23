@@ -1,3 +1,13 @@
+/******************************************************************************
+*
+*  Authors:   Chengyi Zhang
+*     Date:   2023/4/20
+*   Method:   
+*  Version:   
+*  Content:  
+* 
+******************************************************************************/
+
 module matu # (INA_ROWS=3, INA_COLS=9, INB_ROWS=1, INB_COLS=9, SA_ROWS=3, SA_COLS=1, IN_WIDTH=8, C_WIDTH=16) (
     input                               i_clk                                       ,
     input                               i_rst                                       ,
