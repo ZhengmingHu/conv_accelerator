@@ -17,6 +17,7 @@
 #define CONV_OUTPUT_SIZE (IMG_SIZE - CONV_KERNEL_SIZE + 1) * (IMG_SIZE - CONV_KERNEL_SIZE + 1)
 #define FC_INPUT_SIZE (IMG_SIZE - CONV_KERNEL_SIZE + 1) * (IMG_SIZE - CONV_KERNEL_SIZE + 1)
 #define FC_OUTPUT_SIZE 10
+#define FC_BIAS_SIZE 10
 
 // 输入图像
 int input[IMG_SIZE][IMG_SIZE];
@@ -28,7 +29,9 @@ __uint8_t conv_weights[CONV_KERNEL_SIZE][CONV_KERNEL_SIZE];
 int conv_bias = 1;
 
 // 全连接层权重
-__uint8_t fc_weights[FC_OUTPUT_SIZE][FC_INPUT_SIZE];
+__uint8_t fc_weights[FC_INPUT_SIZE][FC_OUTPUT_SIZE];
+
+int fc_bias [FC_BIAS_SIZE];
 
 void conv_layer(int input[IMG_SIZE][IMG_SIZE], int output[CONV_OUTPUT_SIZE]) {
     int idx = 0;
@@ -48,9 +51,9 @@ void conv_layer(int input[IMG_SIZE][IMG_SIZE], int output[CONV_OUTPUT_SIZE]) {
 
 void fc_layer(int input[FC_INPUT_SIZE], int output[FC_OUTPUT_SIZE]) {
     for (int i = 0; i < FC_OUTPUT_SIZE; i++) {
-        int sum = 0;
+        int sum = fc_bias[i];
         for (int j = 0; j < FC_INPUT_SIZE; j++) {
-            sum += (__uint32_t)  input[j] * fc_weights[i][j];
+            sum += (__uint32_t)  input[j] * fc_weights[j][i];
             if ((j + 1) % 26 == 0) {
                 printf("FC output[%d]: %x\n", i, sum);
             }
@@ -75,10 +78,15 @@ int main() {
     }
 
     // 设置全连接层权重
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 676; j++) {
-            fc_weights[i][j] = j + 1;
+    for (int i = 0; i < 676; i++) {
+        for (int j = 0; j < 10; j++) {
+            fc_weights[i][j] = i + 1;
         }
+    }
+
+    // 设置全连接层偏置
+    for (int i = 0; i < 10; i++) {
+        fc_bias[i] = i;
     }
 
     int conv_output[CONV_OUTPUT_SIZE];

@@ -20,29 +20,40 @@ module top_conv_fc (
     input           [  7:  0]           i_conv_kernel [25:0][8:0]  ,
     input           [  7:  0]           i_conv_weight [0:0][8:0]   ,
     input           [  7:  0]           i_conv_bias                ,      
-    input           [  7:  0]           i_fc_weight   [9:0][675:0] ,
+    input           [  7:  0]           i_fc_weight   [675:0][9:0] ,
+    input           [  7:  0]           i_fc_bias     [9:0]        ,
     output          [ 31:  0]           o_res         [9:0]                      
 );
 
 wire post_fire = o_post_valid & i_post_ready;
 
-logic  [    15: 0]  conv_res         [0:0][25:0];
-logic               conv_valid                  ;
-logic  [     7: 0]  conv_bias_extend [0:0]      ;
+logic  [    15: 0]  conv_res         [0:0][25:0] ;
+logic               conv_valid                   ;
+logic  [     7: 0]  conv_bias_extend [0:0]       ;
 
-logic  [    15: 0]  fc_weight_extend [9:0][25:0];
-logic  [     4: 0]  fc_weight_addr              ;
-logic               fc_ready                    ;
-logic  [    15: 0]  fc_bias_extend   [9:0]      ;
-logic  [    31: 0]  fc_res           [9:0][0:0] ;     
+logic  [    15: 0]  fc_weight_t      [9:0][675:0];
+logic  [    15: 0]  fc_weight_extend [9:0][25:0] ;
+logic  [     4: 0]  fc_weight_addr               ;
+logic               fc_ready                     ;
+logic  [    15: 0]  fc_bias_extend   [9:0]       ;
+logic  [    31: 0]  fc_res           [9:0][0:0]  ;     
 
 assign conv_bias_extend[0] = i_conv_bias; 
+
+generate
+    for (genvar i = 0; i < 676; i = i + 1) begin
+        for (genvar j = 0; j < 10; j = j + 1) begin
+            assign fc_weight_t[j][i] = i_fc_weight[i][j];
+        end
+    end
+endgenerate
+
 generate 
     for (genvar i = 0; i < 10; i++) begin
         assign o_res[i] = fc_res[i][0];
         assign fc_bias_extend[i] = 0; 
         for (genvar j = 0; j < 26; j++) begin
-            assign fc_weight_extend[i][j] = {8'b0, {i_fc_weight[i][26*fc_weight_addr+j]}};
+            assign fc_weight_extend[i][j] = {8'b0, {fc_weight_t[i][26*fc_weight_addr+j]}};
         end
     end
 endgenerate

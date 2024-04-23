@@ -18,6 +18,7 @@ module acc_reg (
     input                               i_post_ready               ,
 
     input               [   31: 0]      i_res          [    9: 0]  ,
+    input               [    7: 0]      i_bias         [    9: 0]  ,
     output              [   31: 0]      o_res          [    9: 0]  
 );
 
@@ -76,7 +77,10 @@ generate
                 else
                     acc_r[i] <= 0;
             end else if (pre_fire) begin
-                acc_r[i] <= add_res[i];
+                if (cnt == 0)
+                    acc_r[i] <= add_res[i] + i_bias[i]
+                else 
+                    acc_r[i] <= add_res[i];
             end
         end
         assign o_res[i] = acc_r[i];

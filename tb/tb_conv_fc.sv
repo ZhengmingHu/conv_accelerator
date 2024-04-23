@@ -20,7 +20,8 @@ module tb_conv_fc;
     reg           [  7:  0]             i_conv_bias                ;
     reg           [  7:  0]             i_conv_kernel [25:0][8:0]  ;
     reg           [  7:  0]             i_conv_weight [0:0][8:0]   ;
-    reg           [  7:  0]             i_fc_weight   [9:0][675:0] ;
+    reg           [  7:  0]             i_fc_weight   [675:0][9:0] ;
+    reg           [  7:  0]             i_fc_bias     [9:0]        ;
     wire          [ 31:  0]             o_res         [9:0]        ;    
 
 top_conv_fc u_top_conv_fc(
@@ -34,6 +35,7 @@ top_conv_fc u_top_conv_fc(
     .i_conv_weight                      (i_conv_weight             ),
     .i_conv_bias                        (i_conv_bias               ),
     .i_fc_weight                        (i_fc_weight               ),
+    .i_fc_bias                          (i_fc_bias                 ),
     .o_res                              (o_res                     ) 
 );
 
@@ -59,10 +61,13 @@ initial begin
             i_conv_weight[i][j] = i + j;
         end
     end
-    for (i = 0; i < 10; i++) begin
-        for (j = 0; j < 676; j++) begin
-            i_fc_weight[i][j] = j + 1;
+    for (int i = 0; i < 676; i++) begin
+        for (int j = 0; j < 10; j++) begin
+            i_fc_weight[i][j] = i + 1;
         end
+    end
+    for (int i = 0; i < 10; i++) begin
+        i_fc_bias[i] = i;
     end
     #1000
     $finish;
