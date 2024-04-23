@@ -78,7 +78,7 @@ generate
                     acc_r[i] <= 0;
             end else if (pre_fire) begin
                 if (cnt == 0)
-                    acc_r[i] <= add_res[i] + i_bias[i]
+                    acc_r[i] <= add_res[i] + i_bias[i];
                 else 
                     acc_r[i] <= add_res[i];
             end
