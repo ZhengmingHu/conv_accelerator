@@ -8,7 +8,7 @@
 * 
 ******************************************************************************/
 
-module sa # (SA_ROWS = 3, SA_COLS = 1, IN_WIDTH=8, C_WIDTH=16) (
+module sa # (SA_ROWS = 3, SA_COLS = 1, IN_WIDTH=8, C_WIDTH=16, QT=1) (
     input                               i_clk                                  ,
     input                               i_rst                                  ,
     input                               i_ctrl_sa_send_data [SA_COLS-1:0]      ,
@@ -53,7 +53,8 @@ generate
         for (genvar c = 0; c < SA_COLS; c++) begin
             pe # (
     .IN_WIDTH                           (IN_WIDTH                  ),
-    .C_WIDTH                            (C_WIDTH                   ) 
+    .C_WIDTH                            (C_WIDTH                   ),
+    .QT                                 (QT                        ) 
             ) u_pe (
     .i_clk                              (i_clk                     ),
     .i_rst                              (i_rst                     ),

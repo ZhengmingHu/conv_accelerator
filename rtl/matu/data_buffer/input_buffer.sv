@@ -89,6 +89,6 @@ endgenerate
 
 assign o_data_in_done = state_prepare & all_full;
 
-assign o_pre_ready    = state_prepare & all_empty;
+assign o_pre_ready    = state_prepare;
 
 endmodule

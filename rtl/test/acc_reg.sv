@@ -43,12 +43,15 @@ lib_reg #(
 logic  [   31: 0]  acc_r   [   9: 0];
 logic  [   31: 0]  add_res [   9: 0];
 logic  [    4: 0]  cnt              ;
+logic  [   31: 0]  bias_extend[9: 0];
 
 generate
     for (genvar i = 0; i < 10; i++) begin
         assign add_res[i] = acc_r[i] + i_res[i];
+        assign bias_extend[i] = {{24{i_bias[i][7]}}, i_bias[i]};
     end
 endgenerate
+
 
 
 always @ (posedge i_clk) begin
@@ -78,7 +81,7 @@ generate
                     acc_r[i] <= 0;
             end else if (pre_fire) begin
                 if (cnt == 0)
-                    acc_r[i] <= add_res[i] + i_bias[i];
+                    acc_r[i] <= add_res[i] + bias_extend[i];
                 else 
                     acc_r[i] <= add_res[i];
             end

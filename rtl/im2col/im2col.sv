@@ -56,7 +56,7 @@ lib_reg #(
 always @ (posedge i_clk) begin
     if (i_rst) begin
         cnt <= 0;
-    end else if (cnt == 25) begin
+    end else if (cnt == 26) begin
         cnt <= 0;
     end else if (post_fire) begin
         cnt <= cnt + 1;
@@ -93,6 +93,8 @@ generate
         end
     end
 endgenerate
+
+
 
 // generate
 //     for (genvar i = 0; i < 3; i++) begin

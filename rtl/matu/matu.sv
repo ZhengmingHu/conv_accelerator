@@ -8,7 +8,7 @@
 * 
 ******************************************************************************/
 
-module matu # (INA_ROWS=3, INA_COLS=9, INB_ROWS=1, INB_COLS=9, SA_ROWS=3, SA_COLS=1, IN_WIDTH=8, C_WIDTH=16) (
+module matu # (INA_ROWS=3, INA_COLS=9, INB_ROWS=1, INB_COLS=9, SA_ROWS=3, SA_COLS=1, IN_WIDTH=8, C_WIDTH=16, QT=1) (
     input                               i_clk                                       ,
     input                               i_rst                                       ,
 
@@ -45,7 +45,7 @@ logic                   ctrl_sa_is_idle                   ;
 logic                   ctrl_sa_send_data_pack  [SA_COLS-1:0];
 logic [ C_WIDTH-1: 0]   c_pend                  [SA_COLS-1:0];      
 
-assign o_pre_ready = ibh_ready                            ;
+assign o_pre_ready = ibh_ready  & ctrl_sa_is_idle & ob_empty;
 
 generate
     for (genvar i = 0; i < SA_COLS; i++) begin
@@ -105,7 +105,8 @@ sa # (
     .SA_ROWS                            (SA_ROWS                   ),
     .SA_COLS                            (SA_COLS                   ),
     .IN_WIDTH                           (IN_WIDTH                  ), 
-    .C_WIDTH                            (C_WIDTH                   )
+    .C_WIDTH                            (C_WIDTH                   ),
+    .QT                                 (QT                        )
 ) u_sa (
     .i_clk                              (i_clk                     ),
     .i_rst                              (i_rst                     ),

@@ -27,15 +27,15 @@ module top_conv_fc (
 
 wire post_fire = o_post_valid & i_post_ready;
 
-logic  [    15: 0]  conv_res         [0:0][25:0] ;
+logic  [    31: 0]  conv_res         [0:0][25:0] ;
 logic               conv_valid                   ;
 logic  [     7: 0]  conv_bias_extend [0:0]       ;
 
-logic  [    15: 0]  fc_weight_t      [9:0][675:0];
-logic  [    15: 0]  fc_weight_extend [9:0][25:0] ;
+logic  [     7: 0]  fc_weight_t      [9:0][675:0];
+logic  [    31: 0]  fc_weight_extend [9:0][25:0] ;
 logic  [     4: 0]  fc_weight_addr               ;
 logic               fc_ready                     ;
-logic  [    15: 0]  fc_bias_extend   [9:0]       ;
+logic  [    31: 0]  fc_bias_extend   [9:0]       ;
 logic  [    31: 0]  fc_res           [9:0][0:0]  ;     
 
 assign conv_bias_extend[0] = i_conv_bias; 
@@ -53,7 +53,7 @@ generate
         assign o_res[i] = fc_res[i][0];
         assign fc_bias_extend[i] = 0; 
         for (genvar j = 0; j < 26; j++) begin
-            assign fc_weight_extend[i][j] = {8'b0, {fc_weight_t[i][26*fc_weight_addr+j]}};
+            assign fc_weight_extend[i][j] = {{24{fc_weight_t[i][26*fc_weight_addr+j][7]}}, {fc_weight_t[i][26*fc_weight_addr+j]}};
         end
     end
 endgenerate
@@ -77,7 +77,8 @@ matu#(
     .SA_ROWS                            (26                        ),
     .SA_COLS                            (1                         ),
     .IN_WIDTH                           (8                         ),
-    .C_WIDTH                            (16                        ) 
+    .C_WIDTH                            (32                        ),
+    .QT                                 (1                         ) 
 ) u_conv(
     .i_clk                              (i_clk                     ),
     .i_rst                              (i_rst                     ),
@@ -98,8 +99,9 @@ matu#(
     .INB_COLS                           (26                        ),
     .SA_ROWS                            (1                         ),
     .SA_COLS                            (10                        ),
-    .IN_WIDTH                           (16                        ),
-    .C_WIDTH                            (32                        ) 
+    .IN_WIDTH                           (32                        ),
+    .C_WIDTH                            (32                        ),
+    .QT                                 (0                         )  
 ) u_fc (
     .i_clk                              (i_clk                     ),
     .i_rst                              (i_rst                     ),

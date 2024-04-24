@@ -8,7 +8,7 @@
 * 
 ******************************************************************************/
 
-module pe # (IN_WIDTH=8, C_WIDTH=16) (
+module pe # (IN_WIDTH=8, C_WIDTH=16, QT=1) (
     input                               i_clk                      ,
     input                               i_rst                      ,
 
@@ -66,7 +66,7 @@ always @ (posedge i_clk) begin
     end
 end
 
-mac #(IN_WIDTH, C_WIDTH) u_mac(i_a, i_b, c_r, mac_c);
+mac #(IN_WIDTH, C_WIDTH, QT) u_mac(i_a, i_b, c_r, mac_c);
 
 assign o_a = a_r;
 assign o_b = b_r;
@@ -76,13 +76,16 @@ assign o_ctrl_sa_send_data = i_ctrl_sa_send_data;
 
 endmodule
 
-module mac # (IN_WIDTH=8, C_WIDTH=16) (
+module mac # (IN_WIDTH=8, C_WIDTH=16, QT=1) (
     input              [   IN_WIDTH-1: 0]        i_a                        ,
     input              [   IN_WIDTH-1: 0]        i_b                        ,
     input              [  C_WIDTH-1: 0]          i_c                        ,
     output             [  C_WIDTH-1: 0]          o_c                         
 );
+logic [IN_WIDTH-1:0] mul_res_unsigned;
+wire qt = QT;
 
-assign o_c = i_a * i_b + i_c;
+assign mul_res_unsigned = i_a * i_b;
+assign o_c = qt? (mul_res_unsigned + i_c) : i_a * i_b + i_c;
 
 endmodule
