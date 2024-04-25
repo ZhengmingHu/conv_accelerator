@@ -17,35 +17,17 @@ module top_im2col (
     output                              o_post_valid               ,
     input                               i_post_ready               ,
 
-    input                [   7: 0]      i_data [ 27: 0]  [ 27: 0]  ,
     output               [   7: 0]      o_data [ 25: 0]  [  8: 0]  
 
 );
 
-//logic               img_buffer_valid                ;
-//logic               im2col_ready                    ;  
 logic   [   4:  0]  addr                            ;
 logic   [   7:  0]  data    [   2:  0] [   27:  0]  ;
 
-generate
-    for (genvar i = 0; i < 3; i++) begin
-        for (genvar j = 0; j < 28; j++) begin
-            assign data[i][j] = i_data[addr + i][j];
-        end
-    end
-endgenerate
-
-// img_buffer u_img_buffer (
-//     .i_clk                              (i_clk                     ),
-//     .i_rst                              (i_rst                     ),
-//     .i_pre_valid                        (i_pre_valid               ),
-//     .o_pre_ready                        (o_pre_ready               ),
-//     .o_post_valid                       (img_buffer_valid          ),
-//     .i_post_ready                       (im2col_ready              ),
-//     .i_addr                             (addr                      ),
-//     .i_data                             (i_data                    ),
-//     .o_data                             (data                      ) 
-// );
+img_buffer u_img_buffer (
+    .i_addr                             (addr                      ),
+    .o_data                             (data                      ) 
+);
 
 im2col u_im2col(
     .i_clk                              (i_clk                     ),
