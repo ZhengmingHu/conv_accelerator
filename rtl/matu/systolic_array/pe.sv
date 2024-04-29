@@ -10,7 +10,7 @@
 
 module pe # (IN_WIDTH=8, C_WIDTH=16, QT=1) (
     input                               i_clk                      ,
-    input                               i_rst                      ,
+    input                               i_rstn                     ,
 
     input                               i_ctrl_sa_send_data        ,
     input              [IN_WIDTH-1: 0]  i_a                        ,
@@ -36,7 +36,7 @@ lib_reg#(
     .RESET_VAL                          (0                         ) 
 ) u_pe (
     .clk                                (i_clk                     ),
-    .rst                                (i_rst                     ),
+    .rst                                (i_rstn                    ),
     .din                                (i_data                    ),
     .dout                               (data_r                    ),
     .wen                                (1'b1                      ) 
@@ -45,7 +45,7 @@ lib_reg#(
 assign {a_r, b_r} = data_r;
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         d_r <= 0;
     end else if (i_ctrl_sa_send_data) begin
         d_r <= 0;
@@ -57,7 +57,7 @@ end
 logic [ C_WIDTH-1: 0] mac_c;
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         c_r <= 0;
     end else if (i_ctrl_sa_send_data) begin
         c_r <= i_c;

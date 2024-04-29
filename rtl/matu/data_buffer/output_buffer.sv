@@ -10,7 +10,7 @@
 
 module output_buffer # (QUEUE_NUM=1, QUEUE_LEN=3, C_WIDTH=16) (
     input                               i_clk                                               ,
-    input                               i_rst                                               ,
+    input                               i_rstn                                              ,
     input                               i_ctrl_ob_data_in                                   ,
     input        [  C_WIDTH-1: 0]       i_data              [QUEUE_NUM-1:0]                 ,
 
@@ -38,7 +38,7 @@ generate
             .WIDTH                              (C_WIDTH                   ) 
         ) u_ob_row (
             .i_clk                              (i_clk                     ),
-            .i_rst                              (i_rst                     ),
+            .i_rstn                             (i_rstn                    ),
             .i_enq                              (i_ctrl_ob_data_in         ),
             .i_deq                              (post_fire                 ),
             .i_data                             (i_data[i]                 ),

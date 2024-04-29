@@ -10,7 +10,7 @@
 
 module top_conv_fc (
     input                               i_clk                      ,
-    input                               i_rst                      ,
+    input                               i_rstn                      ,
 
     input                               i_pre_valid                ,
     output                              o_pre_ready                ,
@@ -61,7 +61,7 @@ generate
 endgenerate
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         fc_weight_addr <= 0;
     end else if (conv_valid & fc_ready) begin
         if (fc_weight_addr == 25)
@@ -83,7 +83,7 @@ matu#(
     .QT                                 (1                         ) 
 ) u_conv(
     .i_clk                              (i_clk                     ),
-    .i_rst                              (i_rst                     ),
+    .i_rstn                             (i_rstn                    ),
     .i_pre_valid                        (i_pre_valid               ),
     .o_pre_ready                        (o_pre_ready               ),
     .i_post_ready                       (fc_ready                  ),
@@ -103,10 +103,10 @@ matu#(
     .SA_COLS                            (10                        ),
     .IN_WIDTH                           (32                        ),
     .C_WIDTH                            (32                        ),
-    .QT                                 (0                         )  
+    .QT                                 (0                         ) 
 ) u_fc (
     .i_clk                              (i_clk                     ),
-    .i_rst                              (i_rst                     ),
+    .i_rstn                             (i_rstn                    ),
     .i_pre_valid                        (conv_valid                ),
     .o_pre_ready                        (fc_ready                  ),
     .i_post_ready                       (i_post_ready              ),

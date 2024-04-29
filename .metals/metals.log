@@ -372,3 +372,41 @@ SLF4J: Actual provider is of type [scribe.slf4j.ScribeServiceProvider@70a894af]
 2024.04.25 19:28:49 WARN  Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.[0m
 2024.04.25 19:28:49 WARN  no build tool detected in workspace '/home/zcy/learning/conv_acc'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
 2024.04.25 19:28:50 WARN  Build server is not auto-connectable.[0m
+2024.04.25 22:05:11 INFO  Shutting down server[0m
+2024.04.25 22:05:11 INFO  shutting down Metals[0m
+2024.04.25 22:05:11 INFO  Exiting server[0m
+2024.04.25 22:05:21 INFO  Started: Metals version 1.3.0 in folders '/home/zcy/learning/conv_acc' for client Visual Studio Code 1.88.1.[0m
+SLF4J: Class path contains multiple SLF4J providers.
+SLF4J: Found provider [scribe.slf4j.ScribeServiceProvider@935a39b]
+SLF4J: Found provider [ch.qos.logback.classic.spi.LogbackServiceProvider@45607245]
+SLF4J: See https://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual provider is of type [scribe.slf4j.ScribeServiceProvider@935a39b]
+2024.04.25 22:05:21 WARN  Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.[0m
+2024.04.25 22:05:21 WARN  no build tool detected in workspace '/home/zcy/learning/conv_acc'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+2024.04.25 22:05:21 WARN  Build server is not auto-connectable.[0m
+2024.04.25 22:05:25 INFO  Shutting down server[0m
+2024.04.25 22:05:25 INFO  shutting down Metals[0m
+2024.04.25 22:05:25 INFO  Exiting server[0m
+2024.04.26 10:50:29 INFO  Started: Metals version 1.3.0 in folders '/home/zcy/learning/conv_acc' for client Visual Studio Code 1.88.1.[0m
+SLF4J: Class path contains multiple SLF4J providers.
+SLF4J: Found provider [scribe.slf4j.ScribeServiceProvider@666aff63]
+SLF4J: Found provider [ch.qos.logback.classic.spi.LogbackServiceProvider@623f17b2]
+SLF4J: See https://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual provider is of type [scribe.slf4j.ScribeServiceProvider@666aff63]
+2024.04.26 10:50:30 WARN  Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.[0m
+2024.04.26 10:50:30 WARN  no build tool detected in workspace '/home/zcy/learning/conv_acc'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+2024.04.26 10:50:30 WARN  Build server is not auto-connectable.[0m
+2024.04.26 10:50:47 INFO  Shutting down server[0m
+2024.04.26 10:50:47 INFO  shutting down Metals[0m
+2024.04.26 10:50:47 INFO  Exiting server[0m
+2024.04.29 15:04:39 INFO  Started: Metals version 1.3.0 in folders '/home/zcy/learning/conv_acc' for client Visual Studio Code 1.88.1.[0m
+SLF4J: Class path contains multiple SLF4J providers.
+SLF4J: Found provider [scribe.slf4j.ScribeServiceProvider@50591750]
+SLF4J: Found provider [ch.qos.logback.classic.spi.LogbackServiceProvider@6afcc850]
+SLF4J: See https://www.slf4j.org/codes.html#multiple_bindings for an explanation.
+SLF4J: Actual provider is of type [scribe.slf4j.ScribeServiceProvider@50591750]
+2024.04.29 15:04:39 WARN  Flyway upgrade recommended: H2 2.2.224 is newer than this version of Flyway and support has not been tested. The latest supported version of H2 is 2.2.220.[0m
+2024.04.29 15:04:39 WARN  no build tool detected in workspace '/home/zcy/learning/conv_acc'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+2024.04.29 15:04:39 WARN  Build server is not auto-connectable.[0m
+Apr 29, 2024 3:04:56 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace

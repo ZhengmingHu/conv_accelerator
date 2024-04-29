@@ -17,7 +17,7 @@ module lib_reg #(WIDTH = 1, RESET_VAL = 0) (
 );
 
   always @(posedge clk) begin
-    if (rst)
+    if (!rst)
         dout <= RESET_VAL;
     else if(wen)
         dout <= din;

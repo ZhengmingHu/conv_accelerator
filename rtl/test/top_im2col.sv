@@ -10,7 +10,7 @@
 
 module top_im2col (
     input                               i_clk                      ,
-    input                               i_rst                      ,
+    input                               i_rstn                     ,
 
     input                               i_pre_valid                ,    // TODO: handshake
     output                              o_pre_ready                ,
@@ -31,7 +31,7 @@ img_buffer u_img_buffer (
 
 im2col u_im2col(
     .i_clk                              (i_clk                     ),
-    .i_rst                              (i_rst                     ),
+    .i_rstn                             (i_rstn                    ),
     .i_pre_valid                        (i_pre_valid               ),
     .o_pre_ready                        (o_pre_ready               ),
     .o_post_valid                       (o_post_valid              ),

@@ -10,7 +10,7 @@
 
 module FIFO #(DEPTH = 9, WIDTH=8) (
     input                               i_clk                      ,
-    input                               i_rst                      ,
+    input                               i_rstn                     ,
     input                               i_enq                      ,
     input                               i_deq                      ,
     input        [    WIDTH-1: 0]       i_data                     ,
@@ -27,7 +27,7 @@ logic  [ADDR_WIDTH-1:0]    write_ptr            ;
 logic  [ADDR_WIDTH-1:0]    data_cnt             ;
 
 always @(posedge i_clk) begin
-    if(i_rst) begin
+    if(!i_rstn) begin
         data_cnt <= 0;
     end else if (i_enq & (~full) & (~(i_deq & (~empty)))) begin
         data_cnt <= data_cnt + 1;
@@ -50,7 +50,7 @@ generate
     .RESET_VAL                          (0                         ) 
         ) u_entry (
     .clk                                (i_clk                     ),
-    .rst                                (i_rst                     ),
+    .rst                                (i_rstn                    ),
     .din                                (i_data                    ),
     .dout                               (entry_r[i]                ),
     .wen                                (i_enq & write_ptr == i    ) 
@@ -59,7 +59,7 @@ generate
 endgenerate
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         write_ptr <= 0;
     end else if (i_enq & !full) begin
         if (write_ptr == DEPTH-1) 
@@ -72,7 +72,7 @@ end
 // read logic //////////////////////////////////////////////////////////////
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         read_ptr <= 0; 
     end else if (i_deq & !empty) begin
         if (read_ptr == DEPTH-1) 
@@ -88,7 +88,7 @@ endmodule
 
 module MultiWritePortFIFO #(DEPTH = 9, WIDTH=8) (
     input                               i_clk                      ,
-    input                               i_rst                      ,
+    input                               i_rstn                     ,
     input                               i_enq                      ,
     input                               i_deq                      ,
     input        [    WIDTH-1: 0]       i_data  [DEPTH-1:0]        ,
@@ -105,7 +105,7 @@ logic  [ADDR_WIDTH-1:0]    write_ptr            ;
 logic  [ADDR_WIDTH-1:0]    data_cnt             ;
 
 always @(posedge i_clk) begin
-    if(i_rst) begin
+    if(!i_rstn) begin
         data_cnt <= 0;
     end else if (i_enq & (~full) & (~(i_deq & (~empty)))) begin
         data_cnt <= data_cnt + DEPTH;
@@ -128,7 +128,7 @@ generate
     .RESET_VAL                          (0                         ) 
         ) u_entry (
     .clk                                (i_clk                     ),
-    .rst                                (i_rst                     ),
+    .rst                                (i_rstn                    ),
     .din                                (i_data[i]                 ),
     .dout                               (entry_r[i]                ),
     .wen                                (i_enq                     ) 
@@ -137,7 +137,7 @@ generate
 endgenerate
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         write_ptr <= 0;
     end else if (i_enq & !full) begin
         write_ptr <= 0;
@@ -147,7 +147,7 @@ end
 // read logic //////////////////////////////////////////////////////////////
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         read_ptr <= 0; 
     end else if (i_deq & !empty) begin
         if (read_ptr == DEPTH-1) 
@@ -164,7 +164,7 @@ endmodule
 
 module MultiReadPortFIFO #(DEPTH = 9, WIDTH=16) (
     input                               i_clk                      ,
-    input                               i_rst                      ,
+    input                               i_rstn                     ,
     input                               i_enq                      ,
     input                               i_deq                      ,
     input              [   WIDTH-1: 0]       i_data                     ,
@@ -181,7 +181,7 @@ logic  [ADDR_WIDTH-1:0]    write_ptr            ;
 logic  [ADDR_WIDTH-1:0]    data_cnt             ;
 
 always @(posedge i_clk) begin
-    if(i_rst) begin
+    if(!i_rstn) begin
         data_cnt <= 0;
     end else if (i_enq & (~full) & (~(i_deq & (~empty)))) begin
         data_cnt <= data_cnt + 1;
@@ -204,7 +204,7 @@ generate
     .RESET_VAL                          (0                         ) 
         ) u_entry (
     .clk                                (i_clk                     ),
-    .rst                                (i_rst                     ),
+    .rst                                (i_rstn                    ),
     .din                                (i_data                    ),
     .dout                               (entry_r[i]                ),
     .wen                                (i_enq & write_ptr == i    ) 
@@ -213,7 +213,7 @@ generate
 endgenerate
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         write_ptr <= 0;
     end else if (i_enq & !full) begin
         if (write_ptr == DEPTH-1) 
@@ -226,7 +226,7 @@ end
 // read logic //////////////////////////////////////////////////////////////
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         read_ptr <= 0; 
     end else if (i_deq & full) begin
         read_ptr <= 0;

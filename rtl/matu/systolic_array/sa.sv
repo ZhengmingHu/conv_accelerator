@@ -10,7 +10,7 @@
 
 module sa # (SA_ROWS = 3, SA_COLS = 1, IN_WIDTH=8, C_WIDTH=16, QT=1) (
     input                               i_clk                                  ,
-    input                               i_rst                                  ,
+    input                               i_rstn                                 ,
     input                               i_ctrl_sa_send_data [SA_COLS-1:0]      ,
     input   [   IN_WIDTH-1: 0]          i_a                 [SA_ROWS-1:0]      ,
     input   [   IN_WIDTH-1: 0]          i_b                 [SA_COLS-1:0]      ,
@@ -57,7 +57,7 @@ generate
     .QT                                 (QT                        ) 
             ) u_pe (
     .i_clk                              (i_clk                     ),
-    .i_rst                              (i_rst                     ),
+    .i_rstn                             (i_rstn                    ),
     .i_ctrl_sa_send_data                (ctrl_sa_send_data[r][c]   ),
     .i_a                                (a_w[r][c]                 ),
     .i_b                                (b_w[r][c]                 ),

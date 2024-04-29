@@ -10,7 +10,7 @@
 
 module matu # (INA_ROWS=3, INA_COLS=9, INB_ROWS=1, INB_COLS=9, SA_ROWS=3, SA_COLS=1, IN_WIDTH=8, C_WIDTH=16, QT=1) (
     input                               i_clk                                       ,
-    input                               i_rst                                       ,
+    input                               i_rstn                                      ,
 
     input                               i_pre_valid                                 ,
     output                              o_pre_ready                                 ,
@@ -61,7 +61,7 @@ controller # (
     .SA_COLS                            (SA_COLS                   ) 
 ) u_controller (
     .i_clk                              (i_clk                     ),
-    .i_rst                              (i_rst                     ),
+    .i_rstn                             (i_rstn                    ),
     .i_ibh_data_in_done                 (ibh_data_in_done          ),
     .i_ibv_data_in_done                 (ibv_data_in_done          ),
     .i_ob_empty                         (ob_empty                  ),
@@ -77,7 +77,7 @@ input_buffer # (
     .IN_WIDTH                           (IN_WIDTH                  ) 
 ) u_ibh (
     .i_clk                              (i_clk                     ),
-    .i_rst                              (i_rst                     ),
+    .i_rstn                             (i_rstn                    ),
     .i_ctrl_data_out                    (ctrl_ib_data_out          ),
     .i_pre_valid                        (i_pre_valid               ),
     .o_pre_ready                        (ibh_ready                 ),
@@ -92,7 +92,7 @@ input_buffer # (
     .IN_WIDTH                           (IN_WIDTH                  ) 
 ) u_ibv (
     .i_clk                              (i_clk                     ),
-    .i_rst                              (i_rst                     ),
+    .i_rstn                             (i_rstn                    ),
     .i_ctrl_data_out                    (ctrl_ib_data_out          ),
     .i_pre_valid                        (i_pre_valid               ),
     .o_pre_ready                        (ibv_ready                 ),
@@ -109,7 +109,7 @@ sa # (
     .QT                                 (QT                        )
 ) u_sa (
     .i_clk                              (i_clk                     ),
-    .i_rst                              (i_rst                     ),
+    .i_rstn                             (i_rstn                    ),
     .i_ctrl_sa_send_data                (ctrl_sa_send_data_pack    ),
     .i_a                                (ibh_data                  ),
     .i_b                                (ibv_data                  ),
@@ -124,7 +124,7 @@ output_buffer # (
     .C_WIDTH                            (C_WIDTH                   ) 
 ) u_ob (
     .i_clk                              (i_clk                     ),
-    .i_rst                              (i_rst                     ),
+    .i_rstn                             (i_rstn                    ),
     .i_ctrl_ob_data_in                  (ctrl_ob_data_in           ),
     .i_data                             (sa_res                    ),
     .o_post_valid                       (o_post_valid              ),

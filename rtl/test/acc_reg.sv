@@ -10,7 +10,7 @@
 
 module acc_reg (
     input                               i_clk                      ,
-    input                               i_rst                      ,
+    input                               i_rstn                     ,
     
     input                               i_pre_valid                ,
     output                              o_pre_ready                ,
@@ -34,7 +34,7 @@ lib_reg #(
     .RESET_VAL                          (0                         ) 
   ) postvalid (
     .clk                                (i_clk                     ),
-    .rst                                (i_rst                     ),
+    .rst                                (i_rstn                    ),
     .wen                                (o_pre_ready               ),
     .din                                (i_pre_valid               ),
     .dout                               (pre_valid_r               ) 
@@ -55,7 +55,7 @@ endgenerate
 
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         cnt <= 0;
     end else if (post_fire) begin
         cnt <= 0;
@@ -72,7 +72,7 @@ assign o_post_valid = pre_valid_r & done;
 generate
     for (genvar i = 0; i < 10; i++) begin
         always @ (posedge i_clk) begin
-            if (i_rst) begin
+            if (!i_rstn) begin
                 acc_r[i] <= 0;
             end else if (post_fire) begin
                 if (pre_fire)

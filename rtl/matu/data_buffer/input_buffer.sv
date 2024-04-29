@@ -10,7 +10,7 @@
 
 module input_buffer # (QUEUE_NUM = 3, QUEUE_LEN = 9, IN_WIDTH=8) (
     input                               i_clk                                              ,
-    input                               i_rst                                              ,
+    input                               i_rstn                                             ,
 
     input                               i_ctrl_data_out                                    ,
     input                               i_pre_valid                                        ,
@@ -40,7 +40,7 @@ logic           state;
 wire            state_prepare = state == S_PREPARE, state_data_out = state == S_DATA_OUT;
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         state <= S_PREPARE;
     end else begin
         case (state)
@@ -60,7 +60,7 @@ generate
             .WIDTH                              (IN_WIDTH                  ) 
         ) u_ib_row (
             .i_clk                              (i_clk                     ),
-            .i_rst                              (i_rst                     ),
+            .i_rstn                             (i_rstn                    ),
             .i_enq                              (pre_fire                  ),
             .i_deq                              (state_data_out & delay_cnt[i] == 0 & !empty[i]),
             .i_data                             (i_data[i]                 ),
@@ -77,7 +77,7 @@ endgenerate
 generate
     for (genvar i = 0; i < QUEUE_NUM; i++) begin
         always @ (posedge i_clk) begin
-            if (i_rst)
+            if (!i_rstn)
                 delay_cnt[i] <= 0;
             else if (state_prepare)
                 delay_cnt[i] <= i;  

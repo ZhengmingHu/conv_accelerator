@@ -10,22 +10,16 @@
 
 module tb_conv_acc;
     reg                                 i_clk                      ;
-    reg                                 i_rst                      ;
+    reg                                 i_rstn                     ;
 
-    reg                                 i_pre_valid                ;
-    wire                                o_pre_ready                ;
-    reg                                 i_post_ready               ;
-    wire                                o_post_valid               ;
+    reg                                 i_start                    ;
     
-    wire          [ 31:  0]             o_res         [9:0]        ;    
+    wire          [ 7:  0]              o_res                      ;    
 
 top_conv_acc u_top_conv_acc(
     .i_clk                              (i_clk                     ),
-    .i_rst                              (i_rst                     ),
-    .i_pre_valid                        (i_pre_valid               ),
-    .o_pre_ready                        (o_pre_ready               ),
-    .o_post_valid                       (o_post_valid              ),
-    .i_post_ready                       (i_post_ready              ),
+    .i_rstn                             (i_rstn                    ),
+    .i_start                            (i_start                   ),
     .o_res                              (o_res                     ) 
 );
 
@@ -34,9 +28,9 @@ integer fp;
 always #5 i_clk = ~i_clk;
 
 initial begin
-    i_clk = 0;  i_rst = 0; i_pre_valid = 0; i_post_ready = 0;   #5  
-                i_rst = 1;                                      #15 
-                i_rst = 0; i_pre_valid = 1; i_post_ready = 1;
+    i_clk = 0;  i_rstn = 1; i_start = 0; #5  
+                i_rstn = 0;              #15 
+                i_rstn = 1; i_start = 1; 
 end
 
 initial begin

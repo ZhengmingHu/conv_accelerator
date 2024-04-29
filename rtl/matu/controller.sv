@@ -10,7 +10,7 @@
 
 module controller # (INA_ROWS=3, INA_COLS=9, SA_ROWS = 3, SA_COLS = 1) (
     input                               i_clk                      ,
-    input                               i_rst                      ,
+    input                               i_rstn                     ,
     input                               i_ibh_data_in_done         ,
     input                               i_ibv_data_in_done         ,
     input                               i_ob_empty                 ,
@@ -25,7 +25,7 @@ logic delay_ctrl_ib_data_out;
 logic ctrl_ib_data_out_edge;
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         delay_ctrl_ib_data_out <= 1'b0;
     end else begin
         delay_ctrl_ib_data_out <= ctrl_ib_data_out;
@@ -52,7 +52,7 @@ logic [ 1: 0]  state   ;
 wire state_idle = state == S_IDLE, state_compute = state == S_COMPUTE, state_stall = state == S_STALL, state_output = state == S_OUTPUT;
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         state <= S_IDLE;
     end else begin
         case (state)
@@ -71,13 +71,13 @@ tick_generator # (
     .MAX_COUNT                          (INA_COLS+INA_ROWS+SA_COLS-2) 
 ) u_cal_done_gen (
     .i_clk                              (i_clk                     ),
-    .i_rst                              (i_rst                     ),
+    .i_rstn                             (i_rstn                    ),
     .start                              (cal_gc_start              ),
     .tick                               (cal_gc_tick               ) 
 );
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         cal_done <= 1'b0;
     end else if (cal_gc_tick) begin
         cal_done <= 1'b1;
@@ -93,13 +93,13 @@ tick_generator # (
     .MAX_COUNT                          (SA_ROWS-1                 ) 
 ) u_out_done_gen (
     .i_clk                              (i_clk                     ),
-    .i_rst                              (i_rst                     ),
+    .i_rstn                             (i_rstn                    ),
     .start                              (out_gc_start              ),
     .tick                               (out_gc_tick               ) 
 );
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         out_done <= 1'b0;
     end else if (out_gc_tick) begin
         out_done <= 1'b1;
@@ -118,7 +118,7 @@ endmodule
 
 module tick_generator # (MAX_COUNT=11) (
     input                               i_clk                      ,
-    input                               i_rst                      ,
+    input                               i_rstn                     ,
     input                               start                      ,
     output                              tick                       
 );
@@ -129,7 +129,7 @@ logic                           enable;
 assign tick = count == MAX_COUNT & enable;
 
 always @ (posedge i_clk) begin
-    if (i_rst)
+    if (!i_rstn)
         enable <= 1'b0;
     else if (start)
         enable <= 1'b1;
@@ -138,7 +138,7 @@ always @ (posedge i_clk) begin
 end
 
 always @ (posedge i_clk) begin
-    if (i_rst)
+    if (!i_rstn)
         count <= 1'b0;
     else if (enable) begin
         if (count == MAX_COUNT) begin

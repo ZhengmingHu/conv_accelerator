@@ -10,7 +10,7 @@
 
 module im2col (
     input                               i_clk                      ,
-    input                               i_rst                      ,
+    input                               i_rstn                      ,
 
     input                               i_pre_valid                ,    // TODO: handshake
     output                              o_pre_ready                ,
@@ -42,7 +42,7 @@ lib_reg #(
     .RESET_VAL                          (0                         ) 
   ) postvalid (
     .clk                                (i_clk                     ),
-    .rst                                (i_rst                     ),
+    .rst                                (i_rstn                    ),
     .wen                                (o_pre_ready               ),
     .din                                (i_pre_valid               ),
     .dout                               (o_post_valid              ) 
@@ -54,7 +54,7 @@ lib_reg #(
 
 
 always @ (posedge i_clk) begin
-    if (i_rst) begin
+    if (!i_rstn) begin
         cnt <= 0;
     end else if (cnt == 26) begin
         cnt <= 0;
@@ -76,7 +76,7 @@ generate
                     .RESET_VAL(8'b0)
                 ) u_row(
                     .clk                                (i_clk                     ),
-                    .rst                                (i_rst                     ),
+                    .rst                                (i_rstn                    ),
                     .din                                (i_data[i][j+n]            ),
                     .dout                               (kernel[n][3*i+j]          ),
                     .wen                                (pre_fire                  ) 
